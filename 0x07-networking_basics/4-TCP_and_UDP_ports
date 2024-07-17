@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+# Displays listening ports and shows the PID
+# and name of the program to which each socket belongs
+
+if [ "$EUID" -ne 0 ]; then
+    echo "Please run the script with root privileges (sudo)"
+    exit 1
+fi
+
+# Display header
+echo "Listening Ports:"
+
+lsof -i -P -n | grep LISTEN | awk '{print "PID: " $2 "\tProgram: " $1}'
